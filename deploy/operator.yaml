@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nuodb-ce-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nuodb-ce-operator
+  template:
+    metadata:
+      labels:
+        name: nuodb-ce-operator
+    spec:
+      containers:
+        - name: nuodb-ce-operator
+          image: thebithead/nuodb-ce-operator:v0.0.1
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace

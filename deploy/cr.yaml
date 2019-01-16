@@ -1,0 +1,9 @@
+apiVersion: nuodb.com/v1alpha1
+kind: Nuodb
+metadata:
+  name: nuodb
+spec:
+  storageMode: ephemeral
+  replicaCount: 1
+  smCpu: 250m
+  teCpu: 250m
