@@ -6,3 +6,4 @@ spec:
   replicaCount: 1
   smCpu: 250m
   teCpu: 250m
+  insightsEnabled: true
