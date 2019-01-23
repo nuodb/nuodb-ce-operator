@@ -28,9 +28,11 @@ To create this label:
 Example of NuoDB CE persistent deployment 
 -----------------------------------------
 
-On a OpenShift cluster with Operator Lifecycle Manager installed and running.
-Assumes nuodb-ce-operator is in the $HOME dir.
-Assumes a valid oc login.  Example: oc login -u system:admin
+Assumptions:
+
+1) An OpenShift cluster with Operator Lifecycle Manager installed and running.
+2) nuodb-ce-operator repo is in the $HOME directory.
+3) A valid oc login.  Example: oc login -u system:admin
 
 PROJECT=nuodb
 NODE=centos7.localdomain
