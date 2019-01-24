@@ -30,7 +30,8 @@ Example of NuoDB CE persistent deployment
 
 Assumptions:
 
-1) An OpenShift cluster with Operator Lifecycle Manager installed and running.
+1) An OpenShift 3.11 cluster with Operator Lifecycle Manager installed
+   and running.
 2) nuodb-ce-operator repo is in the $HOME directory.
 3) A valid oc login.  Example: oc login -u system:admin
 
@@ -42,45 +43,46 @@ OPERATOR_NAMESPACE=nuodb
 # Disable THP
 ${HOME}/nuodb-ce-operator/nuodb-prereq/thp-tuned.sh
 
-# assume passwordless sudo
+# make local-storage
 sudo mkdir -p /mnt/local-storage/disk0
 sudo chmod -R 777 /mnt/local-storage/
-
-kubectl label node ${NODE} nuodb.com/node-type=storage
-kubectl label node ${NODE} nuodb.com/zone=east --overwrite=true
-
 sudo chcon -R unconfined_u:object_r:svirt_sandbox_file_t:s0 /mnt/local-storage
 sudo chown -R root:root /mnt/local-storage
 
-# Check on OLM - should show three pods: catalog-operator, olm-operator, packageserver
-oc adm manage-node ${NODE} --list-pods | grep operator-lifecycle-manager
+# label the nodes
+oc label node ${NODE} nuodb.com/node-type=storage
+oc label node ${NODE} nuodb.com/zone=east --overwrite=true
 
-oc new-project ${PROJECT}
-cd ${HOME}/nuodb-ce-operator
 
-# Deploy the K8s Custom Resource Definition for the NuoDB Operator
+# create the storage class and persitent volume
+oc create -f ${TESTDIR}/nuodb-ce-operator/local-disk-class.yaml
+
+oc new-project nuodb
+cd ${TESTDIR}/nuodb-ce-operator
+
+# create the K8s Custom Resource Definition for the NuoDB Operator
 oc create -f deploy/crd.yaml
 
-# Deploy the K8s Role Based Access Control for the NuoDB Operator
+# create the K8s Role Based Access Control for the NuoDB Operator
 oc create -n $OPERATOR_NAMESPACE -f deploy/rbac.yaml
 
-# Deploy the NuoDB Operator
+# create the NuoDB Operator
 oc create -n $OPERATOR_NAMESPACE -f deploy/operator.yaml
 
-# Deploy Cluster Service Version to the OLM
+# create Cluster Service Version for the OLM
 oc create -n $OPERATOR_NAMESPACE -f deploy/csv.yaml
 
-# Deploy the Custom Resource to deploy NuoDB
+# create the Custom Resource to deploy NuoDB
 oc create -n $OPERATOR_NAMESPACE -f deploy/cr.yaml
 
 
 Commands to enable, check, disable NuoDB Insights
 -------------------------------------------------
-# To register and enable Insights on Insights QA Infrastructure.
-#oc exec -it nuodb-insights -c insights -- nuoca register insights --insights-url https://insights-qa.nuodb.com/api/1 --enable-insights
+# To manually register and enable Insights on Insights QA Infrastructure.
+oc exec -it nuodb-insights -c insights -- nuoca register insights --insights-url https://insights-qa.nuodb.com/api/1 --enable-insights
 
 # To check on Insights
-#oc exec -it nuodb-insights -c insights -- nuoca check insights
+oc exec -it nuodb-insights -c insights -- nuoca check insights
 
 # To disable Insights:
 # oc exec -it nuodb-insights -c insights -- nuoca disable insights
