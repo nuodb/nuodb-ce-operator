@@ -3,7 +3,6 @@
 A Kubernetes Operator for NuoDB CE deployments on OpenShift with support for
 both ephemeral and persistent storage.  The operator also has support for
 NuoDB Insights and an example YCSB workload.
-(See DB-24621)
 
 
 Node Labeling
@@ -30,8 +29,8 @@ Example of NuoDB CE persistent deployment
 
 Assumptions:
 
-1) An OpenShift 3.11 cluster with Operator Lifecycle Manager installed
-   and running.
+1) An OpenShift 3.11 or 4.0 cluster with Operator Lifecycle Manager
+   installed and running.
 2) nuodb-ce-operator repo is in the $HOME directory.
 3) A valid oc login.  Example: oc login -u system:admin
 
@@ -53,10 +52,10 @@ sudo chown -R root:root /mnt/local-storage
 oc label node ${NODE} nuodb.com/node-type=storage
 oc label node ${NODE} nuodb.com/zone=east --overwrite=true
 
-
-# create the storage class and persitent volume
+# create the storage class and persistent volume
 oc create -f ${TESTDIR}/nuodb-ce-operator/local-disk-class.yaml
 
+# create the nuodb project
 oc new-project nuodb
 cd ${TESTDIR}/nuodb-ce-operator
 
@@ -78,8 +77,8 @@ oc create -n $OPERATOR_NAMESPACE -f deploy/cr.yaml
 
 Commands to enable, check, disable NuoDB Insights
 -------------------------------------------------
-# To manually register and enable Insights on Insights QA Infrastructure.
-oc exec -it nuodb-insights -c insights -- nuoca register insights --insights-url https://insights-qa.nuodb.com/api/1 --enable-insights
+# To manually register and enable Insights
+oc exec -it nuodb-insights -c insights -- nuoca register insights --enable-insights
 
 # To check on Insights
 oc exec -it nuodb-insights -c insights -- nuoca check insights
@@ -93,7 +92,7 @@ oc exec -it nuodb-insights -c insights -- nuoca check insights
 
 Cleanup
 -------
-# To remove the NuoDB Deployment, and NuoDB Operator:
+# To remove the NuoDB CE Deployment, and NuoDB Operator:
 oc delete -n $OPERATOR_NAMESPACE -f deploy/cr.yaml
 oc delete -n $OPERATOR_NAMESPACE -f deploy/csv.yaml
 oc delete -n $OPERATOR_NAMESPACE -f deploy/operator.yaml

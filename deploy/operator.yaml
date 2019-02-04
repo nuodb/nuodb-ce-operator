@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nuodb-ce-operator
-          image: thebithead/nuodb-ce-operator:v0.0.1
+          image: nuodb/nuodb-ce-operator:v0.0.1
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
