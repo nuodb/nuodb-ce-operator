@@ -70,7 +70,7 @@ spec:
             spec:
               containers:
                 - name: nuodb-ce-operator-olm-owned
-                  image: docker.io/nuodb/nuodb-ce-operator:v0.0.1
+                  image: nuodb/nuodb-ce-operator:v0.0.1
                   imagePullPolicy: Always
                   env:
                   - name: MY_POD_NAMESPACE
