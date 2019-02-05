@@ -7,8 +7,9 @@ for NuoDB Insights and an example YCSB workload.
 
 Node Labeling
 -------------
-Before running the NuoDB Community Edition (CE) persistent storage template,
-you must first label the nodes you want to run NuoDB pods.
+Before deploying any Kubernetes Custom Resource for NuoDB Community Edition
+(CE) that requires persistent storage, you must first label the nodes you
+want to run NuoDB pods.
 
 The first label, "nuodb.com/zone", constrains on which nodes NuoDB pods are
 permitted to run. For example:
@@ -39,7 +40,7 @@ NODE=centos7.localdomain
 CONTAINER=nuodb/nuodb-ce:3.3.0
 OPERATOR_NAMESPACE=nuodb
 
-# Disable THP
+# Disable Transparent Huge Pages on each node.
 ${HOME}/nuodb-ce-operator/nuodb-prereq/thp-tuned.sh
 
 # make local-storage
@@ -79,10 +80,11 @@ Other deployment examples
 -------------------------
 The deploy directory also has other Custom Resources to deploy NuoDB CE:
 
-cr-ephemeral.yaml - Deploys NuoDB CE domain using ephemeral storage.
+cr-ephemeral.yaml - Deploys NuoDB CE domain wihout a peristent storage volume
+by setting storageMode to "ephemeral".
 
 cr-persistent-insights-enabled.yaml - Deploys NuoDB CE domain using persistent
-storage and has insights enabled.
+storage and has NuoDB Insights enabled.
 
 
 Commands to enable, check, disable NuoDB Insights
@@ -125,8 +127,9 @@ storageMode: persistent
 
 
 # insightsEnabled
-# Use to control Insights Opt In.  Insights provides database monitoring.
-# Set to "true" to activate or "false" to deactivate
+# Use to control NuoDB Insights Opt In.  NuoDB Insights provides database
+# monitoring and visualization. Set to "true" to activate or "false" to
+# deactivate
 insightsEnabled: false
 
 # adminCount
