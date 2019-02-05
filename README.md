@@ -54,11 +54,11 @@ oc label node ${NODE} nuodb.com/node-type=storage
 oc label node ${NODE} nuodb.com/zone=east --overwrite=true
 
 # create the storage class and persistent volume
-oc create -f ${TESTDIR}/nuodb-ce-operator/local-disk-class.yaml
+oc create -f ${HOME}/nuodb-ce-operator/local-disk-class.yaml
 
 # create the nuodb project
 oc new-project nuodb
-cd ${TESTDIR}/nuodb-ce-operator
+cd ${HOME}/nuodb-ce-operator
 
 # create the K8s Custom Resource Definition for the NuoDB Operator
 oc create -f deploy/crd.yaml
@@ -96,10 +96,8 @@ oc exec -it nuodb-insights -c insights -- nuoca register insights --enable-insig
 oc exec -it nuodb-insights -c insights -- nuoca check insights
 
 # To disable Insights:
-# oc exec -it nuodb-insights -c insights -- nuoca disable insights
-oc scale rc ycsb-load --replicas=1
+oc exec -it nuodb-insights -c insights -- nuoca disable insights
 
-oc exec -it nuodb-insights -c insights -- nuoca check insights
 
 
 Cleanup
