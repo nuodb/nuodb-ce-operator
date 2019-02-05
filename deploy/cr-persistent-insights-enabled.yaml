@@ -1,3 +1,8 @@
+# Example deployment of a  NuoDB CE Cluster with reduced SM and TE cpu
+# requirement so it can run in a small OpenShift cluster with limited
+# CPU cores.  insightsEnabled is set to "true" to indicate Opt-In to the
+# NuoDB Insights Service.
+
 apiVersion: nuodb.com/v1alpha1
 kind: Nuodb
 metadata:

@@ -1,3 +1,5 @@
+# Kubernetes Role Based Access Control for the NuoDB Operator
+
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:

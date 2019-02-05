@@ -1,8 +1,8 @@
 # nuodb-ce-operator
 
 A Kubernetes Operator for NuoDB CE deployments on OpenShift with support for
-both ephemeral and persistent storage.  The operator also has support for
-NuoDB Insights and an example YCSB workload.
+both ephemeral and persistent storage.  The nuodb-ce-operator also has support
+for NuoDB Insights and an example YCSB workload.
 
 
 Node Labeling
@@ -71,8 +71,18 @@ oc create -n $OPERATOR_NAMESPACE -f deploy/operator.yaml
 # create Cluster Service Version for the OLM
 oc create -n $OPERATOR_NAMESPACE -f deploy/csv.yaml
 
-# create the Custom Resource to deploy NuoDB
+# create the Custom Resource to deploy NuoDB CE
 oc create -n $OPERATOR_NAMESPACE -f deploy/cr.yaml
+
+
+Other deployment examples
+-------------------------
+The deploy directory also has other Custom Resources to deploy NuoDB CE:
+
+cr-ephemeral.yaml - Deploys NuoDB CE domain using ephemeral storage.
+
+cr-persistent-insights-enabled.yaml - Deploys NuoDB CE domain using persistent
+storage and has insights enabled.
 
 
 Commands to enable, check, disable NuoDB Insights
