@@ -235,8 +235,8 @@ ycsbMaxDelay: 240000
 ycsbDbSchema: User1
 
 # apiServer
-# Load balancer service URL.  hostname:port (or LB address) for nuoadmin
-# process to connect to.
+# Load balancer service URL.  hostname:port (or LB address) for nuocmd 
+# and nuodocker process to connect to.
 apiServer: https://domain:8888
 
 # container
