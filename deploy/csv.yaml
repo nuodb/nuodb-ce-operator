@@ -5,7 +5,6 @@ kind: ClusterServiceVersion
 metadata:
   name: nuodb-ce-operator.v0.0.1
 spec:
-  version: 0.0.1
   displayName: nuodb
   provider:
     name: NuoDB Inc.
