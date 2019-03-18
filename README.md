@@ -87,17 +87,10 @@ cr-persistent-insights-enabled.yaml - Deploys NuoDB CE domain using persistent
 storage and has NuoDB Insights enabled.
 
 
-Commands to enable, check, disable NuoDB Insights
+Commands to check NuoDB Insights
 -------------------------------------------------
-# To manually register and enable Insights
-oc exec -it nuodb-insights -c insights -- nuoca register insights --enable-insights
-
 # To check on Insights
 oc exec -it nuodb-insights -c insights -- nuoca check insights
-
-# To disable Insights:
-oc exec -it nuodb-insights -c insights -- nuoca disable insights
-
 
 
 Cleanup
