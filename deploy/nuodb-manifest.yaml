@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nuodb-ce-operator
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: nuodb-ce-operator
+rules:
+- apiGroups:
+  - nuodb.com
+  resources:
+  - "*"
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  - replicationcontrollers
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - "*"
+- apiGroups:
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs
+  verbs:
+  - "*"
+- apiGroups:
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - "*"
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nuodb-ce-operator
+subjects:
+- kind: ServiceAccount
+  name: nuodb-ce-operator
+roleRef:
+  kind: Role
+  name: nuodb-ce-operator
+  apiGroup: rbac.authorization.k8s.io
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nuodb-ce-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nuodb-ce-operator
+  template:
+    metadata:
+      labels:
+        name: nuodb-ce-operator
+    spec:
+      serviceAccountName: nuodb-ce-operator
+      containers:
+        - name: nuodb-ce-operator
+          # Replace this with the built image name
+          image: quay.io/rhc4tp/nuodb-operator:v0.0.2
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "nuodb-operator"
+
