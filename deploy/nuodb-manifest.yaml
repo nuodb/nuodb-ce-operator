@@ -1,13 +1,13 @@
-apiVersion: v1
+FapiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: nuodb-ce-operator
+  name: nuodb-operator
 
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: nuodb-ce-operator
+  name: nuodb-operator
 rules:
 - apiGroups:
   - nuodb.com
@@ -59,32 +59,32 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: nuodb-ce-operator
+  name: nuodb-operator
 subjects:
 - kind: ServiceAccount
-  name: nuodb-ce-operator
+  name: nuodb-operator
 roleRef:
   kind: Role
-  name: nuodb-ce-operator
+  name: nuodb-operator
   apiGroup: rbac.authorization.k8s.io
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nuodb-ce-operator
+  name: nuodb-operator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: nuodb-ce-operator
+      name: nuodb-operator
   template:
     metadata:
       labels:
-        name: nuodb-ce-operator
+        name: nuodb-operator
     spec:
-      serviceAccountName: nuodb-ce-operator
+      serviceAccountName: nuodb-operator
       containers:
-        - name: nuodb-ce-operator
+        - name: nuodb-operator
           # Replace this with the built image name
           image: quay.io/rhc4tp/nuodb-operator:v0.0.2
           imagePullPolicy: Always

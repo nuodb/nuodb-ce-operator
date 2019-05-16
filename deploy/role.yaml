@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   creationTimestamp: null
-  name: nuodb-ce-operator
+  name: nuodb-operator
 rules:
 - apiGroups:
   - nuodb.com

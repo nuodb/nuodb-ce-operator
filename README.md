@@ -1,7 +1,7 @@
-# nuodb-ce-operator
+# nuodb-operator
 
 A Kubernetes Operator for NuoDB CE deployments on OpenShift with support for
-both ephemeral and persistent storage.  The nuodb-ce-operator also has support
+both ephemeral and persistent storage.  The nuodb-operator also has support
 for NuoDB Insights and an example YCSB workload.
 
 
@@ -32,7 +32,7 @@ Assumptions:
 
 1) An OpenShift 3.11 or 4.0 cluster with Operator Lifecycle Manager
    installed and running.
-2) nuodb-ce-operator repo is in the $HOME directory.
+2) nuodb-operator repo is in the $HOME directory.
 3) A valid oc login.  Example: oc login -u system:admin
 
 PROJECT=nuodb
@@ -41,7 +41,7 @@ CONTAINER=nuodb/nuodb-ce:3.3.0
 OPERATOR_NAMESPACE=nuodb
 
 # Disable Transparent Huge Pages on each node.
-${HOME}/nuodb-ce-operator/nuodb-prereq/thp-tuned.sh
+${HOME}/nuodb-operator/nuodb-prereq/thp-tuned.sh
 
 # make local-storage
 sudo mkdir -p /mnt/local-storage/disk0
@@ -54,11 +54,11 @@ oc label node ${NODE} nuodb.com/node-type=storage
 oc label node ${NODE} nuodb.com/zone=east --overwrite=true
 
 # create the storage class and persistent volume
-oc create -f ${HOME}/nuodb-ce-operator/local-disk-class.yaml
+oc create -f ${HOME}/nuodb-operator/local-disk-class.yaml
 
 # create the nuodb project
 oc new-project nuodb
-cd ${HOME}/nuodb-ce-operator
+cd ${HOME}/nuodb-operator
 
 # create the K8s Custom Resource Definition for the NuoDB Operator
 oc create -f deploy/crd.yaml

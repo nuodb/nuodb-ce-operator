@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nuodb-ce-operator
+  name: nuodb-operator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: nuodb-ce-operator
+      name: nuodb-operator
   template:
     metadata:
       labels:
-        name: nuodb-ce-operator
+        name: nuodb-operator
     spec:
-      serviceAccountName: nuodb-ce-operator
+      serviceAccountName: nuodb-operator
       containers:
-        - name: nuodb-ce-operator
+        - name: nuodb-operator
           # Replace this with the built image name
           image: quay.io/rhc4tp/nuodb-operator:v0.0.2
           imagePullPolicy: Always
