@@ -20,7 +20,7 @@ metadata:
     categories: "Database,OpenShift Optional"
     capabilities: "Basic Install"
     certified: "true"
-    containerImage: quay.io/thebithead/nuodb-ce-operator:0.0.3-1
+    containerImage: quay.io/ashukl/nuodb-operator:latest
     createdAt: 2019-05-01T12:59:59Z
     description: This Operator will deploy the Community Edition of NuoDB
     repository: https://github.com/nuodb/nuodb-operator
@@ -105,7 +105,7 @@ spec:
               spec:
                 containers:
                   - name: nuodb-operator
-                    image: quay.io/thebithead/nuodb-ce-operator:0.0.3-1
+                    image: quay.io/ashukl/nuodb-operator:latest
                     imagePullPolicy: Always
                     env:
                       - name: WATCH_NAMESPACE
