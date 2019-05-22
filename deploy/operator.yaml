@@ -16,7 +16,7 @@ spec:
       containers:
         - name: nuodb-operator
           # Replace this with the built image name
-          image: quay.io/rhc4tp/nuodb-operator:v0.0.2
+          image: quay.io/ashukl/nuodb-operator:latest
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
