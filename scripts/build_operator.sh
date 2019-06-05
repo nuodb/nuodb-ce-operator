@@ -1,16 +1,50 @@
 #!/bin/bash
 
+
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -u docker-username -p docker-password -s docker-server -r repo-name -t image-tag -o nuodb-ce-operator-branch-name -l nuodb-ce-helm-branch-name"
+   echo -e "\t-u Docker username for pushing the image"
+   echo -e "\t-p Docker password"
+   echo -e "\t-s Docker server to push (e.g. quay.io)"
+   echo -e "\t-r Repository name in the server including username"
+   echo -e "\t-t Image tag to be used"
+   echo -e "\t-o nuodb-ce-operator Branch name to use"
+   echo -e "\t-l nuodb-ce-helm Branch name to use"
+   exit 1 # Exit script after printing help
+}
+
+while getopts "u:p:s:r:t:o:l:h" opt
+do
+   case "$opt" in
+      u ) dusername="$OPTARG" ;;
+      p ) dpassword="$OPTARG" ;;
+      s ) dserver="$OPTARG" ;;
+	  r ) rname="$OPTARG" ;;
+	  t ) tag="$OPTARG" ;;
+	  o ) obranch="$OPTARG" ;;
+	  l ) hbranch="$OPTARG" ;;
+      ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
+   esac
+done
+
+# Print helpFunction in case parameters are empty
+if [ -z "$dusername" ] || [ -z "$dpassword" ] || [ -z "$dserver" ] || [ -z "$rname" ] || [ -z "$tag" ] || [ -z "$obranch" ] || [ -z "$hbranch" ]
+then
+   echo "Some or all of the parameters are empty";
+   helpFunction
+fi
+
 PROJECT=nuodb
 BUILDDIR=$HOME/build-operator
 GOLANG_VERSION=1.11.4
-
 
 mkdir $BUILDDIR
 cd $BUILDDIR
 git clone https://github.com/nuodb/nuodb-ce-operator.git 
 cd nuodb-ce-operator
-git checkout ashukla/DB-26277
-
+git checkout $obranch
 
 echo "Installing GoLang version: '${GOLANG_VERSION}' ..."
 cd ${HOME}
@@ -53,16 +87,17 @@ mkdir helm-charts
 cd helm-charts/
 git clone https://github.com/nuodb/nuodb-ce-helm.git
 cd nuodb-ce-helm/
+git checkout $hbranch
 rm -fr .git/
 cd ../../
 git status
 
 docker version
 echo "Docker login..."
-docker login -u REPLACE_USERNAME -p REPLACE_PASSWORD quay.io
+docker login -u $dusername -p $dpassword $dserver
 
 
 echo "Build NuoDB Operator..."
-export NUODB_OP_IMAGE=quay.io/ashukl/nuodb-operator:latest
+export NUODB_OP_IMAGE=$dserver/$dusername/$rname:$tag
 operator-sdk build $NUODB_OP_IMAGE
 docker push $NUODB_OP_IMAGE
