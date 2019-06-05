@@ -59,8 +59,7 @@ git status
 
 docker version
 echo "Docker login..."
-#docker login -u tgatesnuodb -p 9892-Kcod
-docker login -u ashukl -p @5hutoSh quay.io
+docker login -u REPLACE_USERNAME -p REPLACE_PASSWORD quay.io
 
 
 echo "Build NuoDB Operator..."
