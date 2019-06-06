@@ -113,7 +113,7 @@ echo "Create the NuoDB Operator..."
 oc create -n $OPERATOR_NAMESPACE -f deploy/operator.yaml
 
 echo "Create Cluster Service Version for the OLM..."
-oc create -n $OPERATOR_NAMESPACE -f deploy/olm-catalog/nuodb-ce-operator/$csv/nuodb.$csv.clusterserviceversion.yaml
+oc create -n $OPERATOR_NAMESPACE -f deploy/olm-catalog/nuodb-ce-operator/$csv/nuodb.v$csv.clusterserviceversion.yaml
 
 echo "Create the Custom Resource to deploy NuoDB..."
 oc create -n $OPERATOR_NAMESPACE -f deploy/cr.yaml
