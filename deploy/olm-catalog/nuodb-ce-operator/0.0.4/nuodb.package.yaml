@@ -1,4 +1,4 @@
-packageName: nuodb-ce-certified
+packageName: nuodb-operator-bundle
 channels:
 - name: alpha
   currentCSV: nuodb-operator.v0.0.4

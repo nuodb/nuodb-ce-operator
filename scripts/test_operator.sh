@@ -59,7 +59,7 @@ while ! echo exit | nc localhost 8443; do sleep 2; done
 
 sleep 60
 
-oc login -u system:admin
+#oc login -u system:admin
 
 OCPVERSION=$(oc version | gawk '$1 ~ /^openshift/ { print $NF; }')
 echo $OCPVERSION
