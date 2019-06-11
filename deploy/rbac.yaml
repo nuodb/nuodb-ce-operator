@@ -1,9 +1,9 @@
-# Kubernetes Role Based Access Control for the NuoDB Operator
+ # Kubernetes Role Based Access Control for the NuoDB Operator
 
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: nuodb-ce-operator
+  name: nuodb-operator
 rules:
 - apiGroups:
   - nuodb.com
@@ -44,13 +44,13 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1beta1
 metadata:
-  name: default-account-nuodb-ce-operator
+  name: default-account-nuodb-operator
 subjects:
 - kind: ServiceAccount
   name: default
 roleRef:
 #  kind: Role
-#  name: nuodb-ce-operator
+#  name: nuodb-operator
   kind: ClusterRole
   name: cluster-admin
   apiGroup: rbac.authorization.k8s.io

@@ -1,7 +1,7 @@
 apiVersion: operators.coreos.com/v1alpha2
 kind: OperatorGroup
 metadata:
-  name: nuodb-ce-operator-group
+  name: nuodb-operator-group
   namespace: nuodb-test1
   spec:
     targetNamespaces:
